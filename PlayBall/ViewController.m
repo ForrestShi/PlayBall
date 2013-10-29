@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
-@interface ViewController ()
+@interface ViewController ()<UICollisionBehaviorDelegate>
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (nonatomic, strong) UIPushBehavior *pusher;
@@ -88,15 +89,29 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
-    [self.view addGestureRecognizer:tapGR];
+    self.ball.layer.cornerRadius = self.ball.bounds.size.width/2;
     
+    self.paddle.backgroundColor = [UIColor purpleColor];
+
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    [self.view addGestureRecognizer:pan];
 }
 
-- (void)tapped:(UIGestureRecognizer *)gr
-{
-    self.attacher.anchorPoint = [gr locationInView:self.view];
+- (void)onPan:(UIPanGestureRecognizer*)gesture{
+
+    CGPoint location = [gesture locationInView:self.view];
+    
+    float moveX = location.x;
+    if (moveX < 0.5 ) {
+        moveX = 0.;
+    }else if (moveX > self.view.bounds.size.width - 0.5 ){
+        moveX = self.view.bounds.size.width;
+    }
+    self.attacher.anchorPoint = CGPointMake(moveX , self.attacher.anchorPoint.y);
+
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -104,4 +119,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
+#pragma mark - Collision delegate 
+
+- (void)collisionBehavior:(UICollisionBehavior*)behavior beganContactForItem:(id <UIDynamicItem>)item1 withItem:(id <UIDynamicItem>)item2 atPoint:(CGPoint)p{
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+    [[AudioUtility sharedInstance] playSound:@"add" withType:@"wav"];
+}
+- (void)collisionBehavior:(UICollisionBehavior*)behavior endedContactForItem:(id <UIDynamicItem>)item1 withItem:(id <UIDynamicItem>)item2{
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+}
+
+// The identifier of a boundary created with translatesReferenceBoundsIntoBoundary or setTranslatesReferenceBoundsIntoBoundaryWithInsets is nil
+- (void)collisionBehavior:(UICollisionBehavior*)behavior beganContactForItem:(id <UIDynamicItem>)item withBoundaryIdentifier:(id <NSCopying>)identifier atPoint:(CGPoint)p{
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+    [[AudioUtility sharedInstance] playSound:@"count" withType:@"wav"];
+}
+- (void)collisionBehavior:(UICollisionBehavior*)behavior endedContactForItem:(id <UIDynamicItem>)item withBoundaryIdentifier:(id <NSCopying>)identifier{
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+}
 @end

@@ -13,6 +13,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"sound"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     return YES;
 }
 							

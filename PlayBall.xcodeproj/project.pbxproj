@@ -21,6 +21,10 @@
 		CD2C40FA181E6FD70071340B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2C40DC181E6FD70071340B /* UIKit.framework */; };
 		CD2C4102181E6FD70071340B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD2C4100181E6FD70071340B /* InfoPlist.strings */; };
 		CD2C4104181E6FD70071340B /* PlayBallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2C4103181E6FD70071340B /* PlayBallTests.m */; };
+		CD2C410E181F97610071340B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2C410D181F97610071340B /* QuartzCore.framework */; };
+		CD2C4111181F987E0071340B /* AudioUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2C4110181F987E0071340B /* AudioUtility.m */; };
+		CD2C4113181F98B30071340B /* add.wav in Resources */ = {isa = PBXBuildFile; fileRef = CD2C4112181F98B30071340B /* add.wav */; };
+		CD2C4116181F9E560071340B /* count.wav in Resources */ = {isa = PBXBuildFile; fileRef = CD2C4115181F9E560071340B /* count.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,12 @@
 		CD2C40FF181E6FD70071340B /* PlayBallTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayBallTests-Info.plist"; sourceTree = "<group>"; };
 		CD2C4101181E6FD70071340B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CD2C4103181E6FD70071340B /* PlayBallTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayBallTests.m; sourceTree = "<group>"; };
+		CD2C410D181F97610071340B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CD2C410F181F987E0071340B /* AudioUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioUtility.h; sourceTree = "<group>"; };
+		CD2C4110181F987E0071340B /* AudioUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioUtility.m; sourceTree = "<group>"; };
+		CD2C4112181F98B30071340B /* add.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = add.wav; sourceTree = "<group>"; };
+		CD2C4114181F98D50071340B /* up.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = up.caf; sourceTree = "<group>"; };
+		CD2C4115181F9E560071340B /* count.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD2C410E181F97610071340B /* QuartzCore.framework in Frameworks */,
 				CD2C40DB181E6FD70071340B /* CoreGraphics.framework in Frameworks */,
 				CD2C40DD181E6FD70071340B /* UIKit.framework in Frameworks */,
 				CD2C40D9181E6FD70071340B /* Foundation.framework in Frameworks */,
@@ -101,6 +112,7 @@
 		CD2C40D7181E6FD70071340B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD2C410D181F97610071340B /* QuartzCore.framework */,
 				CD2C40D8181E6FD70071340B /* Foundation.framework */,
 				CD2C40DA181E6FD70071340B /* CoreGraphics.framework */,
 				CD2C40DC181E6FD70071340B /* UIKit.framework */,
@@ -112,12 +124,17 @@
 		CD2C40DE181E6FD70071340B /* PlayBall */ = {
 			isa = PBXGroup;
 			children = (
+				CD2C410F181F987E0071340B /* AudioUtility.h */,
+				CD2C4110181F987E0071340B /* AudioUtility.m */,
 				CD2C40E7181E6FD70071340B /* AppDelegate.h */,
 				CD2C40E8181E6FD70071340B /* AppDelegate.m */,
 				CD2C40EA181E6FD70071340B /* Main.storyboard */,
 				CD2C40ED181E6FD70071340B /* ViewController.h */,
 				CD2C40EE181E6FD70071340B /* ViewController.m */,
 				CD2C40F0181E6FD70071340B /* Images.xcassets */,
+				CD2C4112181F98B30071340B /* add.wav */,
+				CD2C4114181F98D50071340B /* up.caf */,
+				CD2C4115181F9E560071340B /* count.wav */,
 				CD2C40DF181E6FD70071340B /* Supporting Files */,
 			);
 			path = PlayBall;
@@ -228,9 +245,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD2C4113181F98B30071340B /* add.wav in Resources */,
 				CD2C40F1181E6FD70071340B /* Images.xcassets in Resources */,
 				CD2C40E3181E6FD70071340B /* InfoPlist.strings in Resources */,
 				CD2C40EC181E6FD70071340B /* Main.storyboard in Resources */,
+				CD2C4116181F9E560071340B /* count.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +271,7 @@
 				CD2C40EF181E6FD70071340B /* ViewController.m in Sources */,
 				CD2C40E9181E6FD70071340B /* AppDelegate.m in Sources */,
 				CD2C40E5181E6FD70071340B /* main.m in Sources */,
+				CD2C4111181F987E0071340B /* AudioUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +480,7 @@
 				CD2C4109181E6FD70071340B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CD2C410A181E6FD70071340B /* Build configuration list for PBXNativeTarget "PlayBallTests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +489,7 @@
 				CD2C410C181E6FD70071340B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

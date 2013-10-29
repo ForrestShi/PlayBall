@@ -10,4 +10,7 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic,strong) IBOutlet UILabel *ball;
+@property (nonatomic,strong) IBOutlet UILabel *paddle;
+
 @end

@@ -9,13 +9,19 @@
 #import "ViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface ViewController ()<UICollisionBehaviorDelegate>
+@interface ViewController ()<UICollisionBehaviorDelegate>{
+    UILabel *otherBall;
+}
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (nonatomic, strong) UIPushBehavior *pusher;
+@property (nonatomic, strong) UIPushBehavior *pusher2;
+
 @property (nonatomic, strong) UICollisionBehavior *collider;
 @property (nonatomic, strong) UIDynamicItemBehavior *paddleDynamicProperties;
 @property (nonatomic, strong) UIDynamicItemBehavior *ballDynamicProperties;
+@property (nonatomic, strong) UIDynamicItemBehavior *ballDynamicProperties2;
+
 @property (nonatomic, strong) UIAttachmentBehavior *attacher;
 
 
@@ -28,14 +34,22 @@
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     
     // Start ball off with a push
-    self.pusher = [[UIPushBehavior alloc] initWithItems:@[self.ball]
+    self.pusher = [[UIPushBehavior alloc] initWithItems:@[self.ball,otherBall]
                                                    mode:UIPushBehaviorModeInstantaneous];
     self.pusher.pushDirection = CGVectorMake(0.5, 1.0);
     self.pusher.active = YES; // Because push is instantaneous, it will only happen once
     [self.animator addBehavior:self.pusher];
     
+    // Start ball off with a push
+    self.pusher2 = [[UIPushBehavior alloc] initWithItems:@[otherBall]
+                                                   mode:UIPushBehaviorModeInstantaneous];
+    self.pusher2.pushDirection = CGVectorMake(0.5, -1.0);
+    self.pusher2.active = YES; // Because push is instantaneous, it will only happen once
+    
+    [self.animator addBehavior:self.pusher2];
+    
     // Step 1: Add collisions
-    self.collider = [[UICollisionBehavior alloc] initWithItems:@[self.ball, self.paddle]];
+    self.collider = [[UICollisionBehavior alloc] initWithItems:@[self.ball,otherBall, self.paddle]];
     self.collider.collisionDelegate = self;
     self.collider.collisionMode = UICollisionBehaviorModeEverything;
     self.collider.translatesReferenceBoundsIntoBoundary = YES;
@@ -46,6 +60,13 @@
                                   initWithItems:@[self.ball]];
     self.ballDynamicProperties.allowsRotation = NO;
     [self.animator addBehavior:self.ballDynamicProperties];
+
+    
+    self.ballDynamicProperties2 = [[UIDynamicItemBehavior alloc]
+                                  initWithItems:@[ otherBall]];
+    self.ballDynamicProperties2.allowsRotation = NO;
+    [self.animator addBehavior:self.ballDynamicProperties2];
+    
     
     self.paddleDynamicProperties = [[UIDynamicItemBehavior alloc]
                                     initWithItems:@[self.paddle]];
@@ -59,6 +80,10 @@
     self.ballDynamicProperties.elasticity = 1.0;
     self.ballDynamicProperties.friction = 0.0;
     self.ballDynamicProperties.resistance = 0.0;
+
+    self.ballDynamicProperties2.elasticity = 1.0;
+    self.ballDynamicProperties2.friction = 0.0;
+    self.ballDynamicProperties2.resistance = 0.0;
     
     // Step 5: Move paddle
     self.attacher =
@@ -91,10 +116,26 @@
     
     self.ball.layer.cornerRadius = self.ball.bounds.size.width/2;
     
-    self.paddle.backgroundColor = [UIColor purpleColor];
+    if (!otherBall) {
+        UILabel *b = [[UILabel alloc] initWithFrame:self.ball.bounds];
+        b.layer.cornerRadius = b.bounds.size.width/2;
+        b.backgroundColor = [UIColor purpleColor];
+        otherBall = b;
+    }
+    [self.view addSubview:otherBall];
+    
+    self.paddle.backgroundColor = [UIColor darkGrayColor];
 
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
     [self.view addGestureRecognizer:pan];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reset)];
+    doubleTap.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:doubleTap];
+}
+
+- (void)reset{
+    self.attacher.anchorPoint = self.view.center;
 }
 
 - (void)onPan:(UIPanGestureRecognizer*)gesture{
@@ -102,10 +143,10 @@
     CGPoint location = [gesture locationInView:self.view];
     
     float moveX = location.x;
-    if (moveX < 0.5 ) {
-        moveX = 0.;
-    }else if (moveX > self.view.bounds.size.width - 0.5 ){
-        moveX = self.view.bounds.size.width;
+    if (moveX < 20. ) {
+        moveX = 20.;
+    }else if (moveX > self.view.bounds.size.width -20. ){
+        moveX = self.view.bounds.size.width - 20.;
     }
     self.attacher.anchorPoint = CGPointMake(moveX , self.attacher.anchorPoint.y);
 
